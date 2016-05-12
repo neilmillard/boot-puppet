@@ -1,0 +1,10 @@
+#!/bin/bash
+#BUCKET_PUPPET - name of the bucket with the puppet manifests/modules
+#ROLE          - role name of server
+#SYNC_DIR      - Directory for BTSync
+#SECRET        - Secret for BTSync
+
+export BUCKET_PUPPET=mys3bucket
+export ROLE=webserver
+export SYNC_DIR=/var/www
+export SECRET=8BEDSECR3TEXAMP1E
