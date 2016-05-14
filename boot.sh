@@ -4,6 +4,7 @@
 #ROLE          - role name of server
 #SYNC_DIR      - Directory for BTSync
 #SECRET        - Secret for BTSync
+#USER          - User to own the files inside the sync folder
 
 exec 1>/var/log/boot.log 2>&1
 set -x
@@ -21,16 +22,7 @@ echo "Setup AWS Config for aws cmd - Uses IAM role"
 mkdir /root/.aws
 wget --output-document=/root/.aws/config https://s3-eu-west-1.amazonaws.com/${BUCKET_PUPPET}/config
 
-mkdir -p $SYNC_DIR
-echo "Installing BTsync"
-aws s3 cp s3://$BUCKET_PUPPET/BitTorrent-Sync_x64.tar.gz /tmp/BitTorrent-Sync_x64.tar.gz
-tar xzvf /tmp/BitTorrent-Sync_x64.tar.gz -C /usr/sbin btsync
-mkdir -p /var/run/btsync && mkdir -p /mnt/sync/folders && mkdir -p /mnt/sync/config
-aws s3 cp s3://$BUCKET_PUPPET/run_sync /opt/run_sync
-chmod +x /opt/run_sync
-
-echo "syncing mounting ${SYNC_DIR}"
-/opt/run_sync $SECRET
+bash install-btsync-man.sh
 
 echo "Copying puppet module bundle"
 aws s3 cp s3://$BUCKET_PUPPET/modules.tgz /root/modules.tgz
