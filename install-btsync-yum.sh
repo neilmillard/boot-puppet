@@ -9,11 +9,13 @@ gpgcheck=1" >/etc/yum.repos.d/btsync.repo
 sudo rpm --import http://linux-packages.getsync.com/btsync/key.asc
 
 sudo yum -y install btsync
-sudo mkdir -p /mnt/sync/config
 
-create-sync-config.sh $SECRET
+bash create-sync-config.sh $SECRET
 
 sudo systemctl start btsync
+if [ ! $? -eq 0 ]; then
+  sudo service btsync start
+fi
 
 # systemd
 # sudo systemctl (command) btsync

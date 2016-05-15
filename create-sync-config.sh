@@ -1,16 +1,20 @@
 #!/bin/bash
 # Pass Key/Secret as 1st Arg
 # e.g. create-sync-config.sh MYSECRETKEY
-mkdir -p $SYNC_DIR
-chown root:btsync $SYNC_DIR
-chmod 2775 $SYNC_DIR
-
 mkdir -p /mnt/sync
 chown root:btsync /mnt/sync
 chmod 2775 /mnt/sync
+mkdir -p /mnt/sync/config
+chown root:btsync /mnt/sync/config
+chmod 2775 /mnt/sync/config
 
+mkdir -p $SYNC_DIR
+chmod 2775 $SYNC_DIR
 if [ $USER ] ; then
   sudo usermod -a -G btsync $USER
+  chown ${USER}:btsync $SYNC_DIR
+else
+  chown root:btsync $SYNC_DIR
 fi
 
 SECRET="${@}"
@@ -25,6 +29,7 @@ echo "{
     \"pid_file\": \"/var/run/btsync/btsync.pid\",
     \"check_for_updates\": false,
     \"use_upnp\": false,
+    \"agree_to_EULA\": \"yes\",
     \"download_limit\": 0,
     \"upload_limit\": 0,
     \"shared_folders\": [
@@ -33,7 +38,6 @@ echo "{
             \"dir\": \"$SYNC_DIR\",
             \"use_relay_server\": true,
             \"use_tracker\": true,
-            \"use_dht\": false,
             \"search_lan\": true,
             \"use_sync_trash\": false
         }
