@@ -10,9 +10,9 @@ chmod 2775 /mnt/sync/config
 
 mkdir -p $SYNC_DIR
 chmod 2775 $SYNC_DIR
-if [ $USER ] ; then
-  sudo usermod -a -G btsync $USER
-  chown ${USER}:btsync $SYNC_DIR
+if [ $DATAUSER ] ; then
+  sudo usermod -a -G btsync $DATAUSER
+  chown ${DATAUSER}:btsync $SYNC_DIR
 else
   chown root:btsync $SYNC_DIR
 fi
