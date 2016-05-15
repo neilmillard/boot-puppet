@@ -1,7 +1,13 @@
 #!/bin/bash
+# Pass Key/Secret as 1st Arg
+# e.g. create-sync-config.sh MYSECRETKEY
 mkdir -p $SYNC_DIR
 chown root:btsync $SYNC_DIR
 chmod 2775 $SYNC_DIR
+
+mkdir -p /mnt/sync
+chown root:btsync /mnt/sync
+chmod 2775 /mnt/sync
 
 if [ $USER ] ; then
   sudo usermod -a -G btsync $USER
@@ -32,4 +38,4 @@ echo "{
             \"use_sync_trash\": false
         }
     ]
-}" > /etc/btsync.conf
+}" > /etc/btsync/config.json
